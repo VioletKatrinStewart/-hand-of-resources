@@ -14,9 +14,10 @@ describe('hand-of-resources routes', () => {
 
   it('creates an an alien', async () => {
     const expected = {
+      id: '1',
       number_of_eyes: 7,
       color: 'purple',
-      location_sigthed: 'Arizona',
+      location_sighted: 'Arizona',
     };
     const res = await request(app).post('/api/v5/aliens').send(expected);
 
@@ -25,6 +26,7 @@ describe('hand-of-resources routes', () => {
 
   it('creates music', async () => {
     const expected = {
+      id: '1',
       artist: 'Sophie',
       favorite_song: 'Bipp',
     };
@@ -35,6 +37,7 @@ describe('hand-of-resources routes', () => {
 
   it('creates a pet', async () => {
     const expected = {
+      id: '1',
       name: 'Neko',
       species: 'cat',
       age: 10,
@@ -47,6 +50,7 @@ describe('hand-of-resources routes', () => {
 
   it('creates a plant', async () => {
     const expected = {
+      id: '1',
       species: 'Dicentra spectabilis',
       common_name: 'bleeding-heart',
     };
@@ -57,6 +61,7 @@ describe('hand-of-resources routes', () => {
 
   it('creates a venue', async () => {
     const expected = {
+      id: '1',
       name: 'Holocene',
       size: 'medium',
       address: '1001 SE Morrison St, Portland, OR 97214',
