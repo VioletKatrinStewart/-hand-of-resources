@@ -54,4 +54,23 @@ describe('aliens routes', () => {
     const res = await request(app).get(`/api/v1/aliens/${alien1.id}`);
     expect(res.body).toEqual({ id: expect.any(String), ...alien1 });
   });
+
+  it('updates an alien by id', async () => {
+    await Alien.insert({
+      id: '1',
+      number_of_eyes: 12,
+      color: 'pink',
+      location_sighted: 'Alaska',
+    });
+    const res = await request(app)
+      .patch('/api/v1/aliens/1')
+      .send({ color: 'orange' });
+
+    expect(res.body).toEqual({
+      id: '1',
+      number_of_eyes: 12,
+      color: 'orange',
+      location_sighted: 'Alaska',
+    });
+  });
 });
