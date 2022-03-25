@@ -78,4 +78,16 @@ describe('pets routes', () => {
       color: 'white',
     });
   });
+
+  it('deletes a pet by id', async () => {
+    const pet1 = await Pet.insert({
+      id: '1',
+      name: 'Neko',
+      species: 'cat',
+      age: 10,
+      color: 'white',
+    });
+    const res = await request(app).delete(`/api/v1/pets/${pet1.id}`);
+    expect(res.body).toEqual(pet1);
+  });
 });
