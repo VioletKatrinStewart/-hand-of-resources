@@ -43,4 +43,15 @@ describe('aliens routes', () => {
 
     expect(res.body).toEqual([alien1, alien2]);
   });
+
+  it('gets an alien by id', async () => {
+    const alien1 = await Alien.insert({
+      id: '1',
+      number_of_eyes: 12,
+      color: 'pink',
+      location_sighted: 'Alaska',
+    });
+    const res = await request(app).get(`/api/v1/aliens/${alien1.id}`);
+    expect(res.body).toEqual({ id: expect.any(String), ...alien1 });
+  });
 });
