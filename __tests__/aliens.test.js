@@ -73,4 +73,15 @@ describe('aliens routes', () => {
       location_sighted: 'Alaska',
     });
   });
+
+  it('deletes an alien by id', async () => {
+    const alien1 = await Alien.insert({
+      id: '1',
+      number_of_eyes: 0,
+      color: 'invisible',
+      location_sighted: 'Was Not Sighted',
+    });
+    const res = await request(app).delete(`/api/v1/aliens/${alien1.id}`);
+    expect(res.body).toEqual(alien1);
+  });
 });
