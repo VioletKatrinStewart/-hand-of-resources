@@ -47,4 +47,31 @@ describe('music routes', () => {
     const res = await request(app).get(`/api/v1/music/${music1.id}`);
     expect(res.body).toEqual({ id: expect.any(String), ...music1 });
   });
+
+  it('updates music by id', async () => {
+    await Music.insert({
+      id: '1',
+      artist: 'Mitski',
+      favorite_song: 'I Bet On Losing Dogs',
+    });
+    const res = await request(app)
+      .patch('/api/v1/music/1')
+      .send({ favorite_song: 'Your Best American Girl' });
+
+    expect(res.body).toEqual({
+      id: '1',
+      artist: 'Mitski',
+      favorite_song: 'Your Best American Girl',
+    });
+  });
+
+  it('deletes music by id', async () => {
+    const music1 = await Music.insert({
+      id: '1',
+      artist: 'Rosie Tucker',
+      favorite_song: 'Ambrosia',
+    });
+    const res = await request(app).delete(`/api/v1/music/${music1.id}`);
+    expect(res.body).toEqual(music1);
+  });
 });
