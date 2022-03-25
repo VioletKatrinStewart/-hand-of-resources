@@ -21,7 +21,6 @@ describe('aliens routes', () => {
       location_sighted: 'Arizona',
     };
     const res = await request(app).post('/api/v1/aliens').send(expected);
-
     expect(res.body).toEqual(expected);
   });
 
@@ -38,9 +37,7 @@ describe('aliens routes', () => {
       color: 'green',
       location_sighted: 'California',
     });
-
     const res = await request(app).get('/api/v1/aliens');
-
     expect(res.body).toEqual([alien1, alien2]);
   });
 

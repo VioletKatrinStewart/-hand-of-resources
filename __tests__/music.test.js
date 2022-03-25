@@ -20,7 +20,6 @@ describe('music routes', () => {
       favorite_song: 'Bipp',
     };
     const res = await request(app).post('/api/v1/music').send(expected);
-
     expect(res.body).toEqual(expected);
   });
 
@@ -35,9 +34,17 @@ describe('music routes', () => {
       artist: 'Lonelyspeck',
       favorite_song: 'My Angel Goes Before Me',
     });
-
     const res = await request(app).get('/api/v1/music');
-
     expect(res.body).toEqual([music1, music2]);
+  });
+
+  it('gets muisc by id', async () => {
+    const music1 = await Music.insert({
+      id: '1',
+      artist: 'Vashti Bunyan',
+      favorite_song: '17 Pink Sugar Elephants',
+    });
+    const res = await request(app).get(`/api/v1/music/${music1.id}`);
+    expect(res.body).toEqual({ id: expect.any(String), ...music1 });
   });
 });
