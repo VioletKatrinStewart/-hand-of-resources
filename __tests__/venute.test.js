@@ -4,7 +4,7 @@ const request = require('supertest');
 const app = require('../lib/app');
 const Venue = require('../lib/models/Venue');
 
-describe('aliens routes', () => {
+describe('venues routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
