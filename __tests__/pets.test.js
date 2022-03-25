@@ -57,4 +57,25 @@ describe('pets routes', () => {
     const res = await request(app).get(`/api/v1/pets/${pet1.id}`);
     expect(res.body).toEqual({ id: expect.any(String), ...pet1 });
   });
+
+  it('updates pets by id', async () => {
+    await Pet.insert({
+      id: '1',
+      name: 'Neko',
+      species: 'cat',
+      age: 10,
+      color: 'grey',
+    });
+    const res = await request(app)
+      .patch('/api/v1/pets/1')
+      .send({ color: 'white' });
+
+    expect(res.body).toEqual({
+      id: '1',
+      name: 'Neko',
+      species: 'cat',
+      age: 10,
+      color: 'white',
+    });
+  });
 });
