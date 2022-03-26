@@ -67,4 +67,14 @@ describe('plants routes', () => {
       common_name: 'nice pink plant',
     });
   });
+
+  it('deletes a plant by id', async () => {
+    const plant1 = await Plant.insert({
+      id: '1',
+      species: 'Dicentra spectabilis',
+      common_name: 'nice pink plant',
+    });
+    const res = await request(app).delete(`/api/v1/plants/${plant1.id}`);
+    expect(res.body).toEqual(plant1);
+  });
 });
