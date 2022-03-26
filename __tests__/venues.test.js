@@ -43,4 +43,15 @@ describe('venues routes', () => {
 
     expect(res.body).toEqual([venue1, venue2]);
   });
+
+  it('gets a venue by id', async () => {
+    const venue1 = await Venue.insert({
+      id: '1',
+      name: 'Holocene',
+      size: 'medium',
+      address: '1001 SE Morrison St, Portland, OR 97214',
+    });
+    const res = await request(app).get(`/api/v1/venues/${venue1.id}`);
+    expect(res.body).toEqual({ id: expect.any(String), ...venue1 });
+  });
 });
