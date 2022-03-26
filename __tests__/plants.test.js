@@ -50,4 +50,21 @@ describe('plants routes', () => {
     const res = await request(app).get(`/api/v1/plants/${plant1.id}`);
     expect(res.body).toEqual({ id: expect.any(String), ...plant1 });
   });
+
+  it('updates a plant by id', async () => {
+    await Plant.insert({
+      id: '1',
+      species: 'Dicentra spectabilis',
+      common_name: 'bleeding-heart',
+    });
+    const res = await request(app)
+      .patch('/api/v1/plants/1')
+      .send({ common_name: 'nice pink plant' });
+
+    expect(res.body).toEqual({
+      id: '1',
+      species: 'Dicentra spectabilis',
+      common_name: 'nice pink plant',
+    });
+  });
 });
