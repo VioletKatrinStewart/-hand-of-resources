@@ -1,0 +1,80 @@
+const pool = require('../lib/utils/pool');
+const setup = require('../data/setup');
+const request = require('supertest');
+const app = require('../lib/app');
+const Plant = require('../lib/models/Plant');
+
+describe('plants routes', () => {
+  beforeEach(() => {
+    return setup(pool);
+  });
+
+  afterAll(() => {
+    pool.end();
+  });
+
+  it('creates a plant', async () => {
+    const expected = {
+      id: '1',
+      species: 'Dicentra spectabilis',
+      common_name: 'bleeding-heart',
+    };
+    const res = await request(app).post('/api/v1/plants').send(expected);
+
+    expect(res.body).toEqual(expected);
+  });
+
+  it('gets a list of plants', async () => {
+    const plant1 = await Plant.insert({
+      id: '1',
+      species: 'Dicentra spectabilis',
+      common_name: 'bleeding-heart',
+    });
+    const plant2 = await Plant.insert({
+      id: '2',
+      species: 'Canna generalis',
+      common_name: 'Canna Lily',
+    });
+
+    const res = await request(app).get('/api/v1/plants');
+
+    expect(res.body).toEqual([plant1, plant2]);
+  });
+
+  it('gets plant by id', async () => {
+    const plant1 = await Plant.insert({
+      id: '1',
+      species: 'Dicentra spectabilis',
+      common_name: 'bleeding-heart',
+    });
+    const res = await request(app).get(`/api/v1/plants/${plant1.id}`);
+    expect(res.body).toEqual({ id: expect.any(String), ...plant1 });
+  });
+
+  it('updates a plant by id', async () => {
+    await Plant.insert({
+      id: '1',
+      species: 'Dicentra spectabilis',
+      common_name: 'bleeding-heart',
+    });
+    const res = await request(app)
+      .patch('/api/v1/plants/1')
+      .send({ common_name: 'nice pink plant' });
+
+    expect(res.body).toEqual({
+      id: '1',
+      species: 'Dicentra spectabilis',
+      common_name: 'nice pink plant',
+    });
+  });
+
+  it('deletes a plant by id', async () => {
+    const plant1 = await Plant.insert({
+      id: '1',
+      species: 'Dicentra spectabilis',
+      common_name: 'nice pink plant',
+    });
+    const res = await request(app).delete(`/api/v1/plants/${plant1.id}`);
+    expect(res.body).toEqual(plant1);
+  });
+});
