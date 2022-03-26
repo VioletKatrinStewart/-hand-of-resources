@@ -54,4 +54,23 @@ describe('venues routes', () => {
     const res = await request(app).get(`/api/v1/venues/${venue1.id}`);
     expect(res.body).toEqual({ id: expect.any(String), ...venue1 });
   });
+
+  it('updates a venue by id', async () => {
+    await Venue.insert({
+      id: '1',
+      name: 'Holocene',
+      size: 'medium',
+      address: '1001 SE Morrison St, Portland, OR 97214',
+    });
+    const res = await request(app)
+      .patch('/api/v1/venues/1')
+      .send({ size: 'small' });
+
+    expect(res.body).toEqual({
+      id: '1',
+      name: 'Holocene',
+      size: 'small',
+      address: '1001 SE Morrison St, Portland, OR 97214',
+    });
+  });
 });
