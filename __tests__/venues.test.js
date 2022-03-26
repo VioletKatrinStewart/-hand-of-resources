@@ -73,4 +73,15 @@ describe('venues routes', () => {
       address: '1001 SE Morrison St, Portland, OR 97214',
     });
   });
+
+  it('deletes a venue by id', async () => {
+    const venue1 = await Venue.insert({
+      id: '1',
+      name: 'Holocene',
+      size: 'small',
+      address: '1001 SE Morrison St, Portland, OR 97214',
+    });
+    const res = await request(app).delete(`/api/v1/venues/${venue1.id}`);
+    expect(res.body).toEqual(venue1);
+  });
 });
